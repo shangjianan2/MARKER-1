@@ -1,0 +1,18 @@
+/******************第一次修改**********************/
+else if(readshusju_button_flag == true)
+                {//“读取数据”按钮所产生的回复信息接收完成之后，如果没有新的指令发出，就不会有新的数据接收。利用数据接收完成之后不会有新的数据出现这一特点，判定此次数据是否接受完成
+                    readshuju_jishu++;///////////////////////////////test_15_01
+                    if (readshuju_jishu >= 100000000)///////从10000000改成100000000，增加十倍。实验当中发现，按钮按下至串口开始回复信息这段时间内，时间间隔可能会很大，因此加大计数数量。
+                    {//
+                        readshuju_jishu = 0;
+                        readshuju_thread_flag = true;
+                        readshusju_button_flag = false;
+                    }
+                }
+
+
+/******************第二次修改**********************/
+将if (readshuju_jishu >= 100000000)恢复成if (readshuju_jishu >= 10000000)，增加了全局变量readshuju_kaishi_flag来检测readshuju_jishu是因为什么原因超出10000000。加readshuju_kaishi_flag之前，超出10000000有两种机会，一个是按钮按下至下位机第一个数据回复的之间的时间间隔，这个时间间隔可能会很大从而导致readshuju_jishu增加到很大，这种情况已经因readshuju_kaishi_flag的添加已经被屏蔽掉；另外一种情况就是数据接收完成之后接收线程会长时间没有数据的接收，这个情况通过判定。
+
+
+
